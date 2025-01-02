@@ -25,6 +25,13 @@ const HistoryDetailPage: React.FC = () => {
           isTraced: true
         },
         // ... 他のダミーデータ
+        {
+          id: '2',
+          // 検索履歴詳細（検索結果）のダミー画像（わかめおにぎり）
+          imagePath: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEidhK5jMguVWFpj6CE3KYAa34XxQEheP6ns2oO5WN-eP8K96owCFiL45TKfVwzZW2-AMyyFt9gcWfFHxXv2JYK57cEhJvh-QBMviuI0eRKfNHvVrnztF7PNAWD1j9-NK6gldL_7B6jc_I8/s800/onigiri_wakame.png',
+          similarityScore: 0.75,
+          isTraced: false
+        },
       ]
     });
   }, [id]);
@@ -48,7 +55,7 @@ const HistoryDetailPage: React.FC = () => {
             <div className="text-gray-600">検索日時: {historyDetail.searchDate}</div>
             <div className="text-gray-600">
               検索結果: {historyDetail.resultCount}件 / 
-              トレース画像: {historyDetail.tracedCount}件
+              類似画像: {historyDetail.tracedCount}件
             </div>
           </div>
         </div>
@@ -70,7 +77,7 @@ const HistoryDetailPage: React.FC = () => {
                     ? 'bg-red-100 text-red-800'
                     : 'bg-green-100 text-green-800'
                 }`}>
-                  {result.isTraced ? 'トレース画像' : '非トレース画像'}
+                  {result.isTraced ? '類似画像' : ''}
                 </span>
               </div>
             </div>
