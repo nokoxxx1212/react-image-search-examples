@@ -32,7 +32,6 @@ const HistoryDetailPage: React.FC = () => {
 
   const handleSave = () => {
     // TODO: 保存処理を実装
-    // ここで、checkedItemsの状態を使って保存処理を行う
     console.log('保存された類似画像:', checkedItems);
     alert('チェック結果を保存しました');
   };
@@ -61,30 +60,32 @@ const HistoryDetailPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {historyDetail.searchResults.map(result => (
-            <div key={result.id} className="bg-gray-50 rounded-lg p-4">
-              <img
-                src={result.imagePath}
-                alt="検索結果"
-                className="w-full h-48 object-cover rounded-lg mb-4"
-              />
-              <div className="flex items-center justify-between">
-                <span className="text-gray-600">
-                  類似度: {(result.similarityScore * 100).toFixed(1)}%
-                </span>
-                <label className="flex items-center">
-                  <input
-                    type="checkbox"
-                    checked={checkedItems[result.id] || false}
-                    onChange={() => handleCheck(result.id)}
-                    className="form-checkbox h-5 w-5 text-blue-600"
-                  />
-                  <span className="ml-2 text-gray-700">類似画像</span>
-                </label>
+        <div className="max-h-96 overflow-y-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {historyDetail.searchResults.map(result => (
+              <div key={result.id} className="bg-gray-50 rounded-lg p-4">
+                <img
+                  src={result.imagePath}
+                  alt="検索結果"
+                  className="w-full h-48 object-cover rounded-lg mb-4"
+                />
+                <div className="flex items-center justify-between">
+                  <span className="text-gray-600">
+                    類似度: {(result.similarityScore * 100).toFixed(1)}%
+                  </span>
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={checkedItems[result.id] || false}
+                      onChange={() => handleCheck(result.id)}
+                      className="form-checkbox h-5 w-5 text-blue-600"
+                    />
+                    <span className="ml-2 text-gray-700">類似画像</span>
+                  </label>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
         <button onClick={handleSave} className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
           保存
