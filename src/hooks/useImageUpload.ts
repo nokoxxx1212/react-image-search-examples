@@ -47,23 +47,37 @@ export const useImageUpload = () => {
   };
 
   const handleUpload = async () => {
-    if (selectedImages.length === 0) return;
+    if (selectedImages.length === 0) return [];
 
     setIsUploading(true);
     setUploadProgress(0);
+    const results: SearchResult[] = []; // 検索結果を格納する配列
 
     try {
-      // TODO: 実際のアップロード処理を実装
-      // ローカルでの動作確認用にタイマーでシミュレート
-      for (let i = 0; i <= 100; i += 10) {
-        await new Promise(resolve => setTimeout(resolve, 200));
-        setUploadProgress(i);
-      }
+      // 各画像のアップロード処理を実行
+      const uploadPromises = selectedImages.map(async (image) => {
+        // TODO: 実際のアップロード処理を実装
+        for (let i = 0; i <= 100; i += 10) {
+          await new Promise(resolve => setTimeout(resolve, 200));
+          setUploadProgress(i);
+        }
+        // ここで類似画像検索を実行し、結果を取得する
+        results.push({
+          id: image.id,
+          imagePath: image.previewUrl, // プレビューURLを仮の結果として使用
+          similarityScore: Math.random(), // ランダムな類似度を仮の結果として使用
+          isTraced: false // 仮の結果として非類似画像
+        });
+      });
 
-      // アップロード完了後、検索結果画面に遷移
-      navigate('/search-result');
+      await Promise.all(uploadPromises); // 全てのアップロードが完了するのを待つ
+
+      // 全てのアップロードが完了したら履歴一覧画面に遷移
+      navigate('/history');
+      return results; // 検索結果を返す
     } catch (error) {
       alert('アップロードに失敗しました。');
+      return [];
     } finally {
       setIsUploading(false);
     }

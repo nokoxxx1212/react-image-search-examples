@@ -3,7 +3,11 @@ import { useImageUpload } from '../../hooks/useImageUpload';
 import ImagePreview from './ImagePreview';
 import UploadStatus from './UploadStatus';
 
-const ImageUpload: React.FC = () => {
+interface ImageUploadProps {
+  onUploadComplete: (results: SearchResult[]) => void;
+}
+
+const ImageUpload: React.FC<ImageUploadProps> = ({ onUploadComplete }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { selectedImages, isUploading, uploadProgress, handleFileSelect, handleUpload } = useImageUpload();
 
@@ -11,6 +15,11 @@ const ImageUpload: React.FC = () => {
     if (e.target.files) {
       handleFileSelect(e.target.files);
     }
+  };
+
+  const handleUploadClick = async () => {
+    const results = await handleUpload();
+    onUploadComplete(results);
   };
 
   return (
@@ -42,7 +51,7 @@ const ImageUpload: React.FC = () => {
       <UploadStatus isUploading={isUploading} progress={uploadProgress} />
 
       <button
-        onClick={handleUpload}
+        onClick={handleUploadClick}
         disabled={selectedImages.length === 0 || isUploading}
         className={`w-full py-3 rounded-lg ${
           selectedImages.length === 0 || isUploading
